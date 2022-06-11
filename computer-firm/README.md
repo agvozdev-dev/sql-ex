@@ -76,5 +76,18 @@ select distinct product.model, printer.price
 from Product product
 join Printer printer on product.model = printer.model
 where product.maker = 'B'
+```
 
+8. Find the makers producing PCs but not laptops.
+
+```sql
+select distinct product.maker
+from Product product
+where product.type = 'PC'
+
+except
+
+select distinct product.maker
+from Product product
+where product.type = 'Laptop'
 ```
