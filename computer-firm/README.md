@@ -54,3 +54,27 @@ from Product product
 join Laptop laptop on product.model = laptop.model
 WHERE laptop.hd >= 10
 ```
+
+7. Get the models and prices for all commercially available products (of any type) produced by maker B.
+
+```sql
+select distinct product.model, laptop.price
+from Product product
+join Laptop laptop on product.model = laptop.model
+where product.maker = 'B'
+
+union
+
+select distinct product.model, pc.price
+from Product product
+join PC pc on product.model = pc.model
+where product.maker = 'B'
+
+union
+
+select distinct product.model, printer.price
+from Product product
+join Printer printer on product.model = printer.model
+where product.maker = 'B'
+
+```
