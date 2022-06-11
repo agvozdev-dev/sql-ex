@@ -1,1 +1,1 @@
-# sql-ex
+# Решение задач с https://sql-ex.ru
