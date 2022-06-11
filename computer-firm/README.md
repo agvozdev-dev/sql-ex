@@ -43,3 +43,14 @@ select distinct model, speed, hd
 from pc
 where cd in ('12x', '24x') and price < 600
 ```
+
+6. For each maker producing laptops with a hard drive capacity of 10 Gb or higher, find the speed of such laptops.
+
+   Result set: maker, speed.
+
+```sql
+select distinct product.maker, laptop.speed
+from Product product
+join Laptop laptop on product.model = laptop.model
+WHERE laptop.hd >= 10
+```
