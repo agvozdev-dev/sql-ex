@@ -100,3 +100,21 @@ from Product product
 join PC pc on product.model = pc.model
 where pc.speed >= 450
 ```
+
+10. Find the printer models having the highest price. Result set: model, price.
+
+```sql
+select distinct printer.model, printer.price
+from  printer
+join (select max(price) as max_price
+	  from Printer) as subquery
+on
+	printer.price = subquery.max_price
+
+---
+
+select distinct printer.model, printer.price
+from  printer
+where printer.price =  (select max(price) as max_price
+	  from Printer)
+```
