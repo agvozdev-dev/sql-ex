@@ -91,3 +91,12 @@ select distinct product.maker
 from Product product
 where product.type = 'Laptop'
 ```
+
+9. Find the makers of PCs with a processor speed of 450 MHz or more. Result set: maker.
+
+```sql
+select distinct product.maker
+from Product product
+join PC pc on product.model = pc.model
+where pc.speed >= 450
+```
