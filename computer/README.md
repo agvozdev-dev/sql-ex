@@ -125,3 +125,116 @@ where printer.price =  (select max(price) as max_price
 select avg(speed)
 from PC pc
 ```
+
+12. Find out the average speed of the laptops priced over $1000.
+
+```sql
+select avg(speed)
+from Laptop laptop
+where price > 1000
+```
+
+13. Find out the average speed of the PCs produced by maker A.
+
+```sql
+select avg(speed)
+from PC pc
+join Product product on pc.model = product.model
+where product.maker = 'A'
+```
+
+15. Get hard drive capacities that are identical for two or more PCs.
+
+    Result set: hd.
+
+```sql
+select hd
+from PC pc
+group by hd
+having count(hd) > 1
+```
+
+16. Get pairs of PC models with identical speeds and the same RAM capacity.
+    Each resulting pair should be displayed only once, i.e. (i, j) but not (j, i).
+
+    Result set: model with the bigger number, model with the smaller number, speed, and RAM.
+
+```sql
+select distinct pc1.model, pc2.model, pc1.speed, pc1.ram
+from PC pc1, PC pc2
+where pc1.speed  = pc2.speed and
+	  pc1.ram = pc2.ram and
+	  pc1.model > pc2.model
+```
+
+**Условие pc1.model > pc2.model используется, чтобы в результате не было одинаковых строк, отличающихся только перестановкой**
+
+17. Get the laptop models that have a speed smaller than the speed of any PC.
+
+    Result set: type, model, speed.
+
+```sql
+select distinct
+	product.type,
+	laptop.model,
+	laptop.speed
+from Laptop laptop, Product product
+where product.model = laptop.model and
+	speed < (select min(speed) from PC)
+
+---
+
+select distinct
+	product.type,
+	laptop.model,
+	laptop.speed
+from Laptop laptop, Product product
+where product.model = laptop.model and
+	speed < all (select distinct speed from PC)
+```
+
+18. Find the makers of the cheapest color printers.
+
+    Result set: maker, price.
+
+```sql
+select distinct
+	product.maker,
+	printer.price
+from Printer printer
+join Product product
+	on printer.model = product.model
+where printer.color = 'y' and
+	printer.price =
+		(select min(printer.price)
+			from Printer printer
+			where printer.color = 'y')
+```
+
+19. For each maker having models in the Laptop table, find out the average screen size of the laptops he produces.
+
+    Result set: maker, average screen size.
+
+```sql
+select distinct
+	product.maker,
+	avg(laptop.screen)
+from Product product
+join Laptop laptop
+	on product.model = laptop.model
+group by product.maker
+```
+
+20. Find the makers producing at least three distinct models of PCs.
+
+    Result set: maker, number of PC models.
+
+```sql
+select distinct
+	product.maker,
+	count(product.model)
+from Product product
+where product.type = 'PC'
+group by product.maker
+having count(product.model) >= 3
+```
