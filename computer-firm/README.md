@@ -118,3 +118,10 @@ from  printer
 where printer.price =  (select max(price) as max_price
 	  from Printer)
 ```
+
+11. Find out the average speed of PCs.
+
+```sql
+select avg(speed)
+from PC pc
+```
