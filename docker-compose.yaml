@@ -8,4 +8,4 @@ services:
       - ~/apps/mssql/data:/var/lib/mssqlql/data
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=123qweasd
+      - SA_PASSWORD=tBBywGi#kO
