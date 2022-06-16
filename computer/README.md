@@ -1,5 +1,4 @@
 1.  Find the model number, speed and hard drive capacity for all the PCs with prices below $500.
-
     Result set: model, speed, hd.
 
 ```sql
@@ -10,7 +9,6 @@ where pc.price < 500
 ```
 
 2. List all printer makers.
-
    Result set: maker.
 
 ```sql
@@ -144,7 +142,6 @@ where product.maker = 'A'
 ```
 
 15. Get hard drive capacities that are identical for two or more PCs.
-
     Result set: hd.
 
 ```sql
@@ -156,7 +153,6 @@ having count(hd) > 1
 
 16. Get pairs of PC models with identical speeds and the same RAM capacity.
     Each resulting pair should be displayed only once, i.e. (i, j) but not (j, i).
-
     Result set: model with the bigger number, model with the smaller number, speed, and RAM.
 
 ```sql
@@ -170,7 +166,6 @@ where pc1.speed  = pc2.speed and
 **Условие pc1.model > pc2.model используется, чтобы в результате не было одинаковых строк, отличающихся только перестановкой**
 
 17. Get the laptop models that have a speed smaller than the speed of any PC.
-
     Result set: type, model, speed.
 
 ```sql
@@ -194,7 +189,6 @@ where product.model = laptop.model and
 ```
 
 18. Find the makers of the cheapest color printers.
-
     Result set: maker, price.
 
 ```sql
@@ -212,7 +206,6 @@ where printer.color = 'y' and
 ```
 
 19. For each maker having models in the Laptop table, find out the average screen size of the laptops he produces.
-
     Result set: maker, average screen size.
 
 ```sql
@@ -226,7 +219,6 @@ group by product.maker
 ```
 
 20. Find the makers producing at least three distinct models of PCs.
-
     Result set: maker, number of PC models.
 
 ```sql
@@ -240,8 +232,7 @@ having count(product.model) >= 3
 ```
 
 21. Find out the maximum PC price for each maker having models in the PC table.
-
-        Result set: maker, maximum price.
+    Result set: maker, maximum price.
 
 ```sql
 select product.maker, max(pc.price)
@@ -251,7 +242,6 @@ group by product.maker
 ```
 
 22. For each value of PC speed that exceeds 600 MHz, find out the average price of PCs with identical speeds.
-
     Result set: speed, average price.
 
 ```sql
@@ -259,4 +249,36 @@ select pc.speed, avg(pc.price)
 from PC pc
 where pc.speed > 600
 group by pc.speed
+```
+
+23. Get the makers producing both PCs having a speed of 750 MHz or higher and laptops with a speed of 750 MHz or higher.
+    Result set: maker
+
+```sql
+select distinct subquery1.maker
+from
+    (select product.maker
+     from Product product
+     join PC pc on product.model = pc.model
+     where pc.speed >= 750) as subquery1
+    join
+        (select product.maker
+         from Product product
+         join Laptop laptop on product.model = laptop.model
+         where laptop.speed >= 750) as subquery2
+    on subquery1.maker = subquery2.maker
+
+---
+
+select distinct product.maker
+from Product product
+join PC pc on product.model = pc.model
+where pc.speed >= 750
+
+intersect
+
+select distinct product.maker
+from Product product
+join Laptop laptop on product.model = laptop.model
+where laptop.speed >= 750
 ```
