@@ -238,3 +238,13 @@ where product.type = 'PC'
 group by product.maker
 having count(product.model) >= 3
 ```
+
+21. Find out the maximum PC price for each maker having models in the PC table.
+    Result set: maker, maximum price.
+
+```sql
+select product.maker, max(pc.price)
+from Product product
+join PC pc on product.model = pc.model
+group by product.maker
+```
