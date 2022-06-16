@@ -240,11 +240,23 @@ having count(product.model) >= 3
 ```
 
 21. Find out the maximum PC price for each maker having models in the PC table.
-    Result set: maker, maximum price.
+
+        Result set: maker, maximum price.
 
 ```sql
 select product.maker, max(pc.price)
 from Product product
 join PC pc on product.model = pc.model
 group by product.maker
+```
+
+22. For each value of PC speed that exceeds 600 MHz, find out the average price of PCs with identical speeds.
+
+    Result set: speed, average price.
+
+```sql
+select pc.speed, avg(pc.price)
+from PC pc
+where pc.speed > 600
+group by pc.speed
 ```
